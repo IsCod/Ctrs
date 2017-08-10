@@ -14,7 +14,7 @@ CWD=$(pwd)
 function createUnitList()
 {
     echo "start ctrsd.server for createUnitList"
-    php $CWD/TradingApi/Cron.php createUnitList > /dev/null 2>&1
+    php $CWD/TradingApi/Cron.php createUnitList > /dev/null 2>&1 &
 }
 
 function ScanningPrice()
@@ -24,7 +24,7 @@ function ScanningPrice()
         SIGINT=`ps -fe|grep php |grep -v grep |grep scanprice |awk -F " " '{print $2}'`
         if [[ ! -n $SIGINT ]];
             then
-                php $CWD/TradingApi/Cron.php scanprice > /dev/null 2>&1
+                php $CWD/TradingApi/Cron.php scanprice > /dev/null 2>&1 &
         fi
     done
 }
@@ -34,7 +34,7 @@ function start(){
         SIGINT=`ps -fe|grep php |grep -v grep |grep start |awk -F " " '{print $2}'`
         if [[ ! -n $SIGINT ]];
             then
-                php $CWD/TradingApi/Cron.php start > /dev/null 2>&1
+                php $CWD/TradingApi/Cron.php start > /dev/null 2>&1 &
         fi
     done
 }
@@ -55,10 +55,10 @@ function stop(){
 rc=0
 case "$1" in
     start)
-        echo "ctrsd.server uping ..."
+        echo "ctrsd.server uping"
         createUnitList
-        ScanningPrice > /dev/null 2>&1
-        start > /dev/null 2>&1
+        ScanningPrice > /dev/null 2>&1 &
+        start > /dev/null 2>&1 &
         rc=$?
     ;;
 

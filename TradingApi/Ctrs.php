@@ -48,7 +48,8 @@ class Ctrs{
     * @return array list
     *
     */
-    public function createUnitList(){
+    public function createUnitList()
+    {
         // conversion points
         $arr = range($this->start, $this->end, $this->setp);
 
@@ -58,28 +59,25 @@ class Ctrs{
 
         $price = $this->getPrice();
 
-        foreach ($arr as $key => $value)
-        {
+        foreach ($arr as $key => $value):
 
             $rvalue = unserialize($rcache->hGet('CtrsUnitList', $value));
             $valueunit = $rvalue;
 
-            if (!is_object($valueunit))
-            {
+            if (!is_object($valueunit)):
                 $valueunit = new Unit($value);
-
                  if ($valueunit->price > $price->ask->price) $valueunit->state = 1;
-
                 $rcache->hSet('CtrsUnitList', $value, serialize($valueunit));
-            }
+            endif;
 
             $unitlist[$value] = $valueunit;
-        }
+        endforeach;
 
         return $unitlist;
     }
 
-    public function clearData(){
+    public function clearData()
+    {
         try {
             return Rcache::delete('CtrsUnitList');
         } catch (Exception $e) {
@@ -88,7 +86,8 @@ class Ctrs{
     }
 
     //生成价格，使用脚本实时刷新
-    public function createPrice(){
+    public function createPrice()
+    {
 
         $price = $this->btcAPI->getMarketDepth(1, 'ALL');
 
@@ -161,13 +160,12 @@ class Ctrs{
 
         $rcache = new Rcache();
 
-        foreach ($this->orderList as $key => $unit)
-        {
+        foreach ($this->orderList as $key => $unit):
             if ($unit->price < $min_price && $unit->state === 0) continue;
             $unit = $this->manageUnit($unit, $price);
             $rcache->hSet('CtrsUnitList', $key, serialize($unit));
             if (is_object($unit)) $this->orderList[$key] = $unit;
-        }
+        endforeach;
     }
 
     /**
@@ -182,7 +180,7 @@ class Ctrs{
 
             //创建订单
             try {
-                $orderId = $this->btcAPI->placeOrder($price->ask->price*0.001, $this->amount,  $this->market);
+                $orderId = $this->btcAPI->placeOrder($price->ask->price*0.01, $this->amount,  $this->market);
                 $unit->state = 2;
                 $unit->tradid = $orderId;
                 Log::write('unit-list', array('state' => 'open', 'orderId' => $orderId, 'type' => 'bid', 'price' => $price->bid->price*0.01, 'amount' => $this->amount));
@@ -207,8 +205,7 @@ class Ctrs{
         if ($unit->state === 2)
         {
             $res = $this->btcAPI->getOrder($unit->tradid, $this->market);
-            switch ($res->order->status)
-            {
+            switch ($res->order->status):
                 //cancell order
                 case 'cancelled':
                     if ($res->order->type == 'bid') {
@@ -243,27 +240,30 @@ class Ctrs{
                 default:
                         $unit = new Unit($unit->price);
                     break;
-            }
+            endswitch;
         }
 
         return $unit;
     }
 
     //设置开关
-    public static function setOff($value = TRUE){
+    public static function setOff($value = TRUE)
+    {
         Rcache::set('Ctrs:SwitchIng', $value);
         self::$switching = $value;
         return self::$switching;
     }
 
-    public function getOff(){
+    public function getOff()
+    {
         self::$switching = (bool)Rcache::get('Ctrs:SwitchIng');
         return self::$switching;
     }
 
     //开启循环扫描模式
     public function on(){
-        while ($this->getOff()) {
+        while ($this->getOff())
+        {
             echo "Start Scanning Unit List\n";
             $this->ScanningOrder();
             echo "End Scanning Unit List\n";
@@ -271,33 +271,52 @@ class Ctrs{
         return true;
     }
 
-    //获取当前的列表状态，并格式化输出
-    public function getinfo(){
-        echo "Ctrs status:\t";
-        echo $this->getOff() ? "runing......" : "stop......";
-        echo "\n";
-        $count = count($this->orderList);
-        echo "Count: " . $count . "\n";
-        echo "Start collect ";
-        $askNum = $bidList = 0;
-        foreach ($this->orderList as $key => $unit):
-            $unit->price = $unit->price * 0.01;
-            if ($unit->tradid > 0):
-                $res = $this->btcAPI->getOrder($unit->tradid, $this->market);
-                if ($res):
-                    if ($key % 10 == 0) echo '.';
-                    $date = date('Y-m-d H:i:s' , $res->order->date);
-                    $str = "price :{$unit->price} \tstate : {$unit->state}, orderId : {$unit->tradid}";
-                    $str .= "\torderType : {$res->order->type}, orderPrice : {$res->order->price} amount : {$res->order->amount}, date : {$date}";
-                    $str .= "\n";
-                    $return[$res->order->type][] = $str;
+    public function getinfo()
+    {
+        $price = $this->getPrice();
+
+        echo "Price: \n";
+        echo "  Bid: " . $price->bid->price . "\tAsk: " . $price->bid->price . "\n\n";
+        echo "Unitlist status:\n";
+
+        $list = $this->orderList;
+        ksort($list);
+
+        $count = count($list);
+        $count_all = array(0=>0, 1=>0, 2=>0);
+
+        $i = 0;
+        foreach ($list as $key => $value) :
+            $i++;
+            if ($i < 3 || $i > ($count - 3)):
+                echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid . "\n";
+            ;else :
+                $diff = $price->bid->price - $key;
+                if ($diff > -200 && $diff < 200):
+
+                    echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid;
+                    if ($value->tradid > 0):
+                        $res = $this->btcAPI->getOrder($value->tradid, $this->market);
+                        echo "  orderType: {$res->order->type}  date: {$date}   amount : {$res->order->amount}";
+                    endif;
+
+                    echo "\n";
                 endif;
+
             endif;
+
+            if ($i == 3 || $i == ($count - 3)):
+                echo "  * - - - - - - - - - - - - - - - - - - - \n";
+            endif;
+
+            $count_all[$value->state] +=  1;
         endforeach;
 
-        echo "\n";
-        foreach ($return as $key => $value) {
-            echo "[" . $key . "]" . $value;
-        }
+        echo "Unitlist count:\n";
+        echo "  Initial:\t{$count_all[0]}\n";
+        echo "  Open:\t\t{$count_all[1]}\n";
+        echo "  Ordering:\t{$count_all[2]}\n";
+        echo "  Sum:\t\t" . array_sum($count_all) . "\n";
+
     }
 }
