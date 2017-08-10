@@ -36,7 +36,7 @@ class Ctrs{
         $this->setp = (int)($setp * 100);
         $this->btcAPI = new Btc();
         // $this->db = new Db();
-        $this->orderList = $this->createData();
+        $this->orderList = $this->createUnitList();
     }
 
     /**
@@ -48,8 +48,7 @@ class Ctrs{
     * @return array list
     *
     */
-    private function createData()
-    {
+    public function createUnitList(){
         // conversion points
         $arr = range($this->start, $this->end, $this->setp);
 
@@ -62,26 +61,22 @@ class Ctrs{
         foreach ($arr as $key => $value)
         {
 
-            $rvalue = unserialize($rcache->hGet('CtrsUnitList', $key));
-            if (!is_object($rvalue))
+            $rvalue = unserialize($rcache->hGet('CtrsUnitList', $value));
+            $valueunit = $rvalue;
+
+            if (!is_object($valueunit))
             {
-                $value = new Unit($value);
+                $valueunit = new Unit($value);
 
-                 if ($value->price > $price['ask']) $value->state = 1;
+                 if ($valueunit->price > $price->ask->price) $valueunit->state = 1;
 
-                $rcache->hSet('CtrsUnitList', $key, serialize($value));
-            }else{
-                $value = $rvalue;
+                $rcache->hSet('CtrsUnitList', $value, serialize($valueunit));
             }
 
-            $unitlist[] = $value;
+            $unitlist[$value] = $valueunit;
         }
 
         return $unitlist;
-    }
-
-    public function createUnitList(){
-        $this->createData();
     }
 
     public function clearData(){

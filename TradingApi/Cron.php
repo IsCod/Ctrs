@@ -7,11 +7,11 @@ if (!isset($argv[1])) {
 }
 
 //Create ctrs
-$c = new Ctrs(50, 400, 1);
+$c = new Ctrs(100, 400, 1);
 
 switch ($argv[1]) :
     case 'createUnitList':
-            $c = $c->createUnitList();
+            $c->createUnitList();
         break;
     case 'scanprice':
             while (true) :
