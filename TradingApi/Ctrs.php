@@ -19,7 +19,7 @@ use Ctrs\Log;
 class Ctrs{
 
     public $orderList = array();
-    public $amount = 0.001;
+    public $amount = 0.1;
     public $start = 100;
     public $end = 10000;
     public $setp = 100;
@@ -57,6 +57,8 @@ class Ctrs{
 
         $rcache = new Rcache();
 
+        $price = $this->getPrice();
+
         foreach ($arr as $key => $value)
         {
 
@@ -64,6 +66,9 @@ class Ctrs{
             if (!is_object($rvalue))
             {
                 $value = new Unit($value);
+
+                 if ($value->price > $price['ask']) $value->state = 1;
+
                 $rcache->hSet('CtrsUnitList', $key, serialize($value));
             }else{
                 $value = $rvalue;
