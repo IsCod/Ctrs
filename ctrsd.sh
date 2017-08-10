@@ -77,14 +77,14 @@ case "$1" in
         fi
     ;;
 
+    status)
+        php $CWD/TradingApi/Cron.php status
+    ;;
+
     restart|reload|force-reload)
         $0 stop
         $0 start
         rc=$?
-    ;;
-
-    status)
-        status
     ;;
 
     *)
