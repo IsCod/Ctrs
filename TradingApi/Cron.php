@@ -7,7 +7,7 @@ if (!isset($argv[1])) {
 }
 
 //Create ctrs
-$c = new Ctrs(50, 400, 0.5);
+$c = new Ctrs(50, 400, 1);
 
 switch ($argv[1]) :
     case 'createUnitList':
@@ -41,7 +41,7 @@ switch ($argv[1]) :
             Ctrs::test();
         break;
     default:
-            echo "userage: php {$argv[0]} start stop restart or status\n";
+            echo "userage: php {$argv[0]} start stop reset restart or status\n";
         break;
 
 endswitch;

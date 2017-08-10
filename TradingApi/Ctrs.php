@@ -19,7 +19,7 @@ use Ctrs\Log;
 class Ctrs{
 
     public $orderList = array();
-    public $amount = 0.1;
+    public $amount = 0.05;
     public $start = 100;
     public $end = 10000;
     public $setp = 100;
