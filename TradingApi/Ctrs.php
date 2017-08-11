@@ -278,6 +278,7 @@ class Ctrs{
         echo "Price: \n";
         echo "  Bid: " . $price->bid->price . "\tAsk: " . $price->bid->price . "\n\n";
         echo "Unitlist status:\n";
+        echo "  *------------------------------------------------*\n";
 
         $list = $this->orderList;
         ksort($list);
@@ -307,17 +308,16 @@ class Ctrs{
             endif;
 
             if ($i == 3 || $i == ($count - 3)):
-                echo "  * - - - - - - - - - - - - - - - - - - - \n";
+                echo "  *\n";
             endif;
 
             $count_all[$value->state] +=  1;
         endforeach;
-
+        echo "  *------------------------------------------------*\n\n";
         echo "Unitlist count:\n";
         echo "  Initial:\t{$count_all[0]}\n";
         echo "  Open:\t\t{$count_all[1]}\n";
         echo "  Ordering:\t{$count_all[2]}\n";
         echo "  Sum:\t\t" . array_sum($count_all) . "\n\n";
-
     }
 }
