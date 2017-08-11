@@ -78,7 +78,11 @@ case "$1" in
     ;;
 
     status)
-        php $CWD/TradingApi/Cron.php status
+        while [[ true ]]; do
+            php $CWD/TradingApi/Cron.php status
+            sleep 2
+        done
+
     ;;
 
     restart|reload|force-reload)
