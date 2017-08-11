@@ -299,7 +299,7 @@ class Ctrs{
                     if ($value->tradid > 0):
                         $res = $this->btcAPI->getOrder($value->tradid, $this->market);
                         $date = date("Y-m-d H:i:s" , $res->order->date);
-                        echo "  orderType: {$res->order->type}  date: {$date}   amount : {$res->order->amount}";
+                        echo "  orderType: {$res->order->type}  date: {$date}   amount : {$res->order->amount_original}";
                     endif;
 
                     echo "\n";
