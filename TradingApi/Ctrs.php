@@ -88,7 +88,6 @@ class Ctrs{
     //生成价格，使用脚本实时刷新
     public function createPrice()
     {
-
         $price = $this->btcAPI->getMarketDepth(1, 'ALL');
 
         if (!$price) return FALSE;
@@ -261,14 +260,26 @@ class Ctrs{
     }
 
     //开启循环扫描模式
-    public function on(){
-        while ($this->getOff())
-        {
+    public function on()
+    {
+        while ($this->getOff()):
             echo "Start Scanning Unit List\n";
             $this->ScanningOrder();
             echo "End Scanning Unit List\n";
-        }
-        return true;
+        endwhile;
+    }
+
+    public function scanprice()
+    {
+        while ($this->getOff()):
+            echo "New Price:\n";
+            $allprice = $c->createPrice();
+            foreach ($allprice as $key => $value) :
+                $value->ask->price = $value->ask->price * 0.01;
+                $value->bid->price = $value->bid->price * 0.01;
+                echo "{$key} :\t askPrice : {$value->ask->price}, \tbidPrice : {$value->bid->price}\n";
+            endforeach;
+        endwhile;
     }
 
     public function getinfo()

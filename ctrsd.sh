@@ -22,7 +22,6 @@ function createUnitList()
 function ScanningPrice()
 {
     while [[ true ]]; do
-
         SIGINT=`ps -fe|grep php |grep -v grep |grep scanprice |awk -F " " '{print $2}'`
         if [[ ! -n $SIGINT ]];
             then

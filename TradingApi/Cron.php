@@ -14,15 +14,7 @@ switch ($argv[1]) :
             $c->createUnitList();
         break;
     case 'scanprice':
-            while (true) :
-                echo "New Price:\n";
-                $allprice = $c->createPrice();
-                foreach ($allprice as $key => $value) :
-                    $value->ask->price = $value->ask->price * 0.01;
-                    $value->bid->price = $value->bid->price * 0.01;
-                    echo "{$key} :\t askPrice : {$value->ask->price}, \tbidPrice : {$value->bid->price}\n";
-                endforeach;
-            endwhile;
+        $c->scanprice();
         break;
     case 'start':
             Ctrs::setOff(TRUE);
