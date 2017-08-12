@@ -7,24 +7,10 @@
 
 # author iscodd
 # score https://github.com/IsCod/BtcCtrs
-# BASHPATH=`ls -l /etc/init.d/ctrsd |awk -F "->" '{print $2}'d`
-# ARGV=$1
-
-# if [[ ! -n $BASHPATH ]]; then
-#     echo "ok"
-#     echo $ARGV
-#     echo $BASHPATH
-#     $BASHPATH $ARGV
-#     exit 0;
-# fi
-# exit 0;
-
-# BASHPATH=`ls -l /etc/init.d/ctrsd |awk -F "->" '{print $2}'`
-# echo $BASHPATH
-
 CWD=$(pwd)
-# echo $CWD
-# exit 0;
+if [[ $CWD = '/' ]]; then
+    CWD='/usr/local/src/Ctrs'
+fi
 
 #初始化List
 function createUnitList()

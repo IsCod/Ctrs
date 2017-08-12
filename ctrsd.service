@@ -8,9 +8,9 @@ After=network.target
 
 [Service]
 Type=notify
-ExecStart=/usr/sbin/ctrsd start
-ExecReload=/usr/sbin/ctrsd restart
-ExecStop=/usr/sbin/ctrsd stop
+ExecStart=/etc/init.d/ctrsd start
+ExecReload=/etc/init.d/ctrsd restart
+ExecStop=/etc/init.d/ctrsd stop
 PrivateTmp=true
 
 [Install]
