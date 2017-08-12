@@ -46,5 +46,9 @@ EXPOSE 9000
 VOLUME /data/
 WORKDIR /data/
 RUN git clone https://github.com/IsCod/Ctrs.git ctrs
+RUN ln -s /data/ctrs/ctrsd.sh /etc/init.d/ctrsd
+RUN cp /data/ctrs/ctrsd.service /usr/lib/systemd/system/ctrsd.service
+RUN chmod 754 /usr/lib/systemd/system/ctrsd.service
+RUN systemctl enable ctrsd
 
-ENTRYPOINT ["php-fpm"]
+ENTRYPOINT ["ctrsd start"]

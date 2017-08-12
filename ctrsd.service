@@ -1,0 +1,17 @@
+#  This file is part of systemd.
+#  Ctrs trading system
+
+[Unit]
+Description=Ctrsd trading server
+After=syslog.target
+After=network.target
+
+[Service]
+Type=notify
+ExecStart=/usr/sbin/ctrsd start
+ExecReload=/usr/sbin/ctrsd restart
+ExecStop=/usr/sbin/ctrsd stop
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
