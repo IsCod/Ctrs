@@ -287,7 +287,7 @@ class Ctrs{
         $price = $this->getPrice();
 
         echo "Price: \n";
-        echo "  Bid: " . $price->bid->price . "\tAsk: " . $price->bid->price . "\n\n";
+        echo "  Bid: " . $price->bid->price . "\tAsk: " . $price->ask->price . "\n\n";
         echo "Unitlist status:\n";
         echo "  *------------------------------------------------*\n";
 
