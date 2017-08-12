@@ -11,14 +11,16 @@ $c = new Ctrs(100, 400, 1);
 
 switch ($argv[1]) :
     case 'createUnitList':
-            $c->createUnitList();
+        $c->createUnitList();
         break;
     case 'scanprice':
         $c->scanprice();
         break;
     case 'start':
-            Ctrs::setOff(TRUE);
             $c->on();
+        break;
+    case 'off':
+            Ctrs::setOff(TRUE);
         break;
     case 'stop':
             Ctrs::setOff(FALSE);

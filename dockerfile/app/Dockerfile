@@ -7,7 +7,7 @@ MAINTAINER IsCod "iscodd@gmail.com"
 ENV REFRESHED_AT 2017-03-16
 
 #update centos system
-RUN yum update -y && yum clean all
+RUN yum update -y && yum clean all && yum install bind -y
 
 #install php-fpm
 RUN yum install -y php-fpm
@@ -43,12 +43,9 @@ RUN echo "date.timezone = Asia/Shanghai" >> /etc/php.ini
 
 EXPOSE 9000
 
-VOLUME /data/
-WORKDIR /data/
-RUN git clone https://github.com/IsCod/Ctrs.git ctrs
-RUN ln -s /data/ctrs/ctrsd.sh /etc/init.d/ctrsd
-RUN cp /data/ctrs/ctrsd.service /usr/lib/systemd/system/ctrsd.service
-RUN chmod 754 /usr/lib/systemd/system/ctrsd.service
-RUN systemctl enable ctrsd
+WORKDIR /usr/local/src/
+RUN git clone https://github.com/IsCod/Ctrs.git
+RUN ln -s /usr/local/src/Ctrs/ctrsd.sh /etc/init.d/ctrsd
+RUN cp /usr/local/src/Ctrs/ctrsd.service /usr/lib/systemd/system/ctrsd.service
 
-ENTRYPOINT ["ctrsd start"]
+ENTRYPOINT ["php-fpm"]

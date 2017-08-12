@@ -53,6 +53,7 @@ You can use docker-compose build for fast create server
 
 ```
 $ docker-compose up -d
+$ docker exec -d ctrs_app_1 service ctrsd start
 ```
 docker-compose create ctrs_app_1 and ctrs_mariadb_1 and ctrs_redis_1 three container
 

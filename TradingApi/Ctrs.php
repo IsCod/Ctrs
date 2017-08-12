@@ -273,7 +273,7 @@ class Ctrs{
     {
         while ($this->getOff()):
             echo "New Price:\n";
-            $allprice = $c->createPrice();
+            $allprice = $this->createPrice();
             foreach ($allprice as $key => $value) :
                 $value->ask->price = $value->ask->price * 0.01;
                 $value->bid->price = $value->bid->price * 0.01;

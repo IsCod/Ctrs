@@ -31,6 +31,7 @@ function ScanningPrice()
 }
 
 function start(){
+    php $CWD/TradingApi/Cron.php start off > /dev/null 2>&1 &
     while [[ true ]]; do
         SIGINT=`ps -fe|grep php |grep -v grep |grep start |awk -F " " '{print $2}'`
         if [[ ! -n $SIGINT ]];
@@ -41,15 +42,11 @@ function start(){
 }
 
 function stop(){
+    php $CWD/TradingApi/Cron.php stop > /dev/null 2>&1 &
     SIGINT=`ps -fe|grep sh |grep -v grep |grep ctrsd|grep start |awk -F " " '{print $2}'`
     if [[ -n $SIGINT ]];
         then
             kill -9 $SIGINT
-    fi
-
-    SIGINT=`ps -fe|grep php |grep -v grep| grep Cron.php |awk -F " " '{print $2}'`
-    if [[ -n $SIGINT ]]; then
-        kill -9 $SIGINT
     fi
 }
 
@@ -88,8 +85,7 @@ case "$1" in
     ;;
 
     restart|reload|force-reload)
-        $0 stop
-        $0 start
+        $0 stop && $0 start
         rc=$?
     ;;
 
