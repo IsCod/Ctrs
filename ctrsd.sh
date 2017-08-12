@@ -31,7 +31,7 @@ function ScanningPrice()
 }
 
 function start(){
-    php $CWD/TradingApi/Cron.php start off > /dev/null 2>&1 &
+    php $CWD/TradingApi/Cron.php off > /dev/null 2>&1 &
     while [[ true ]]; do
         SIGINT=`ps -fe|grep php |grep -v grep |grep start |awk -F " " '{print $2}'`
         if [[ ! -n $SIGINT ]];
