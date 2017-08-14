@@ -6,10 +6,10 @@
 # description: Curve daemon Trading System
 
 # author iscodd
-# score https://github.com/IsCod/BtcCtrs
+# score https://github.com/IsCod/ctrs
 CWD=$(pwd)
 if [[ $CWD = '/' ]]; then
-    CWD='/usr/local/src/Ctrs'
+    CWD='/usr/local/src/ctrs'
 fi
 
 #初始化List

@@ -304,7 +304,7 @@ class Ctrs{
                 echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid . "\n";
             ;else :
                 $diff = $price->bid->price - $key;
-                if ($diff > -200 && $diff < 200):
+                if ($diff > -300 && $diff < 300):
 
                     echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid;
                     if ($value->tradid > 0):

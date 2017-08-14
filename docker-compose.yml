@@ -1,31 +1,29 @@
 app:
-    build: dockerfile/app
-    volumes:
-    - /etc/localtime:/etc/localtime:ro
-    # ports:
-    # - "0.0.0.0:8080:80"
+    build: ./
+    dockerfile: DockerFile-App
+    dns:
+        - 8.8.8.8
+        - 114.114.114
     links:
-    - mariadb
-    - redis
+        - mariadb
+        - redis
 mariadb:
     image: mariadb
     command: mysqld
-    volumes:
-    - /etc/localtime:/etc/localtime:ro
-    #volumes_from:
-    #- app
     environment:
-    - 'MYSQL_ROOT_PASSWORD=root123456'
-    - 'MYSQL_DATABASE=ctrs'
-    - 'MYSQL_USER=ctrs'
-    - 'MYSQL_PASSWORD=ctrs123456'
+        - 'MYSQL_ROOT_PASSWORD=root123456'
+        - 'MYSQL_DATABASE=ctrs'
+        - 'MYSQL_USER=ctrs'
+        - 'MYSQL_PASSWORD=ctrs123456'
+    dns:
+        - 8.8.8.8
+        - 114.114.114
     expose:
-    - '3306'
+        - '3306'
 redis:
     image: redis
-    volumes:
-    - /etc/localtime:/etc/localtime:ro
-    #volumes_from:
-    #- app
+    dns:
+        - 8.8.8.8
+        - 114.114.114
     expose:
-    - '6379'
+        - '6379'
