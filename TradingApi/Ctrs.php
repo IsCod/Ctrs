@@ -284,6 +284,10 @@ class Ctrs{
 
     public function getinfo()
     {
+        echo "\nOn/Off:   ";
+        echo $this->getOff() ? "On" : "Off";
+        echo "\n\n";
+
         $price = $this->getPrice();
 
         echo "Price: \n";

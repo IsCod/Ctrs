@@ -8,10 +8,10 @@ Firstly, download the ctrs
 $ git clone https://github.com/IsCod/ctrs.git
 ```
 
-## ctrswork command
-You can help for ctrswork
+## ctrsd command
+You can help for ctrsd
 ```
-$ ./ctrswork.sh help
+$ ./ctrsd.sh help
 ```
 
 ## change config for btcchina api key
@@ -29,33 +29,39 @@ private static $secretKey = 'yousecretkey';
 
 ## Initialize service
 ```
-$ ./ctrswork.sh init
+$ ./ctrsd.sh reset
 ```
 
 ## start service
 ```
-$ ./ctrswork.sh start
+$ ./ctrsd.sh start
 ```
 
 ## stop service
 ```
-$ ./ctrswork.sh stop
+$ ./ctrsd.sh stop
 ```
 
 ## restart service
 ```
-$ ./ctrswork.sh restart
+$ ./ctrsd.sh restart (testing)
 ```
-
 
 ## docker-compose build
 You can use docker-compose build for fast create server
 
+up docker is start ctrsd daemon
+
+create container:
+
+ctrs_app_1, ctrs_mariadb_1 and ctrs_redis_1
+
 ```
 $ docker-compose up -d
-$ docker exec -d ctrs_app_1 service ctrsd start
 ```
-docker-compose create ctrs_app_1 and ctrs_mariadb_1 and ctrs_redis_1 three container
 
-ctrs_app_1 is core code run container
+## Trading status for docker
 
+```
+$ docker exec -it ctrs_app_1 service ctrsd status
+```
