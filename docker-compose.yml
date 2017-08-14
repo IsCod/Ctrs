@@ -1,6 +1,9 @@
 app:
     build: ./
-    dockerfile: DockerFile-App
+    dockerfile: DockerFileApp
+    command: ctrsd
+    expose:
+        - 9000
     dns:
         - 8.8.8.8
         - 114.114.114

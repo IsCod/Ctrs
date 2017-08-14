@@ -15,7 +15,6 @@ fi
 #初始化List
 function createUnitList()
 {
-    echo "start ctrsd.server for createUnitList"
     php $CWD/TradingApi/Cron.php createUnitList > /dev/null 2>&1 &
 }
 
@@ -52,6 +51,11 @@ function stop(){
 
 rc=0
 case "$1" in
+    "")
+        echo "ctrsd.server uping"
+        createUnitList
+        ScanningPrice > /dev/null 2>&1 &
+        start
     start)
         echo "ctrsd.server uping"
         createUnitList
