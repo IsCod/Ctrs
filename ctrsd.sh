@@ -56,6 +56,7 @@ case "$1" in
         createUnitList
         ScanningPrice > /dev/null 2>&1 &
         start
+    ;;
     start)
         echo "ctrsd.server uping"
         createUnitList

@@ -9,6 +9,10 @@ ENV REFRESHED_AT 2017-03-16
 #update centos system
 RUN yum update -y && yum clean all && yum install bind -y
 
+#LOCALTIME
+RUN rm -rf /etc/localtime
+RUN ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
 #install php-fpm
 RUN yum install -y php-fpm
 
@@ -45,10 +49,7 @@ WORKDIR /usr/local/src/
 RUN git clone https://github.com/IsCod/ctrs.git
 COPY TradingApi/Btc.php /usr/local/src/ctrs/TradingApi/Btc.php
 RUN ln -s /usr/local/src/ctrs/ctrsd.sh /etc/init.d/ctrsd
+RUN ln -s /usr/local/src/ctrs/ctrsd.sh /usr/sbin/ctrsd
 RUN cp /usr/local/src/ctrs/ctrsd.service /usr/lib/systemd/system/ctrsd.service
-
-#LOCALTIME
-RUN rm -rf /etc/localtime
-RUN ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ENTRYPOINT ["ctrsd"]
