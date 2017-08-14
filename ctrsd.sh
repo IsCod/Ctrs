@@ -7,8 +7,8 @@
 
 # author iscodd
 # score https://github.com/IsCod/ctrs
-CWD=$(pwd)
-if [[ $CWD = '/' ]]; then
+CWD=`pwd |grep ctrs`
+if [[ ! -n $CWD ]]; then
     CWD='/usr/local/src/ctrs'
 fi
 
@@ -51,7 +51,7 @@ function stop(){
 
 rc=0
 case "$1" in
-    "")
+    "-s")
         echo "ctrsd.server uping"
         createUnitList
         ScanningPrice > /dev/null 2>&1 &

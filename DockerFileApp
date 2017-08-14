@@ -52,4 +52,4 @@ RUN ln -s /usr/local/src/ctrs/ctrsd.sh /etc/init.d/ctrsd
 RUN ln -s /usr/local/src/ctrs/ctrsd.sh /usr/sbin/ctrsd
 RUN cp /usr/local/src/ctrs/ctrsd.service /usr/lib/systemd/system/ctrsd.service
 
-ENTRYPOINT ["ctrsd"]
+CMD ["ctrsd", "-s"]
