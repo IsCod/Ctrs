@@ -143,8 +143,7 @@ class Ctrs{
         }
 
         if ($market === FALSE) $market = $this->market;
-
-        return $this->price->{$market};
+        return isset($this->price->{$market}) ? $this->price->{$market} : $this->price;
     }
 
     /**
@@ -288,10 +287,21 @@ class Ctrs{
         echo $this->getOff() ? "On" : "Off";
         echo "\n\n";
 
-        $price = $this->getPrice();
+        $price = $this->getPrice("ALL");
+
+        $accoutInfo = $this->btcAPI->getAccountInfo();
+        echo "You AccountInfo:\n";
+        echo "  Balance: \n";
+
+        $cny = $accoutInfo->balance->cny->amount + $accoutInfo->frozen->cny->amount;
+        $btc = $accoutInfo->balance->btc->amount + $accoutInfo->frozen->btc->amount;
+        $ltc = $accoutInfo->balance->ltc->amount + $accoutInfo->frozen->ltc->amount;
+
+        echo "  Cny: " . $cny . "\tBtc: " . $btc . "\tLtc: " . $ltc;
+        echo "\tSumCny:" . ($cny + $ltc * $price->LTCCNY->bid->price + $btc * $price->BTCCNY->bid->price) . "\n\n";
 
         echo "Price: \n";
-        echo "  Bid: " . $price->bid->price . "\tAsk: " . $price->ask->price . "\n\n";
+        echo "  Bid: " . $price->{$this->market}->bid->price . "\tAsk: " . $price->{$this->market}->ask->price . "\n\n";
         echo "Unitlist status:\n";
         echo "  *------------------------------------------------*\n";
 
@@ -307,8 +317,9 @@ class Ctrs{
             if ($i < 3 || $i > ($count - 3)):
                 echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid . "\n";
             ;else :
-                $diff = $price->bid->price - $key;
-                if ($diff > -300 && $diff < 300):
+                $bid_diff = $price->{$this->market}->bid->price - $key - 200;
+                $ask_diff = $price->{$this->market}->ask->price - $key + 200;
+                if ($bid_diff < 0 && $ask_diff > 0):
 
                     echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid;
                     if ($value->tradid > 0):
