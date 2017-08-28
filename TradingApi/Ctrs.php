@@ -298,7 +298,7 @@ class Ctrs{
         $ltc = $accoutInfo->balance->ltc->amount + $accoutInfo->frozen->ltc->amount;
 
         echo "  Cny: " . $cny . "\tBtc: " . $btc . "\tLtc: " . $ltc;
-        echo "\tSumCny:" . ($cny + $ltc * $price->LTCCNY->bid->price + $btc * $price->BTCCNY->bid->price) . "\n\n";
+        echo "\tSumCny:" . ($cny + $ltc * $price->LTCCNY->bid->price * 0.01 + $btc * $price->BTCCNY->bid->price * 0.01) . "\n\n";
 
         echo "Price: \n";
         echo "  Bid: " . $price->{$this->market}->bid->price . "\tAsk: " . $price->{$this->market}->ask->price . "\n\n";
