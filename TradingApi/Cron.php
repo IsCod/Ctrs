@@ -7,7 +7,7 @@ if (!isset($argv[1])) {
 }
 
 //Create ctrs
-$c = new Ctrs(100, 500, 1);
+$c = new Ctrs(100, 800, 1);
 
 switch ($argv[1]) :
     case 'createUnitList':
