@@ -1,6 +1,6 @@
 <?php
 #Curve Trading System Btc
-namespace ctrs;
+namespace Ctrs;
 use BTCChinaAPI;
 require_once __DIR__ . '/../btcchina-api-php/BTCChinaLibrary.php';
 

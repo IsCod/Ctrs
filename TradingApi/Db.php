@@ -1,5 +1,5 @@
 <?php
-namespace ctrs;
+namespace Ctrs;
 use Pdo;
 /*
 * Db PDO CONNECT MYSQL
