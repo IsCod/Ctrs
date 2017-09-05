@@ -65,3 +65,13 @@ $ docker-compose up -d
 ```
 $ docker exec -it ctrs_app_1 service ctrsd status
 ```
+
+## status for fflush
+
+print for dynamic information
+
+you can use fflush-status but you require compile .c file
+```
+$ gcc fflush-status.c -o fflush-status
+$ ./fflush-status
+```
