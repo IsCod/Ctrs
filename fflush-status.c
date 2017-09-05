@@ -1,16 +1,18 @@
 #include <stdio.h>
-//#include <stdlib.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+//gcc fflush-status.c -o fflush-status
+//./fflush-status for print status fflush
 int
 main(int argc, char* argv[])
 {
     while(1)
     {
-        system("clear");
         char buf_ps[1024];
-        char ps[]="php TradingApi/Cron.php status";
+        // docker status
+        char ps[]="clear && docker exec -it ctrs_app_1 service ctrsd status";
+        // char ps[]="clear && ./ctrsd.sh status";
         char ret[100000] = "";
         FILE *ptr;
         if((ptr=popen(ps, "r"))!=NULL)
@@ -26,7 +28,7 @@ main(int argc, char* argv[])
         {
          printf("popen %s error/n", ps);
         }
-        printf("%s", ret);
+        printf("/r%s", ret);
         fflush(stdout);
         sleep(1);
     }

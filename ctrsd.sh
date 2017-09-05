@@ -81,7 +81,7 @@ case "$1" in
     ;;
 
     status)
-        php $CWD/status
+        php $CWD/TradingApi/Cron.php status
     ;;
 
     restart|reload|force-reload)
