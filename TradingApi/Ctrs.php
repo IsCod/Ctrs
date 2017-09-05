@@ -317,13 +317,13 @@ class Ctrs{
         foreach ($list as $key => $value) :
             $i++;
             if ($i < 3 || $i > ($count - 3)):
-                echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid . "    amount: " . $value->amount . "\n";
+                echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid . "    unit-amount: " . $value->amount . "\n";
             ;else :
                 $bid_diff = $price->{$this->market}->bid->price - $key - 200;
                 $ask_diff = $price->{$this->market}->ask->price - $key + 200;
                 if ($bid_diff < 0 && $ask_diff > 0):
 
-                    echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid;
+                    echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid . "    unit-amount: " . $value->amount;
                     if ($value->tradid > 0):
                         $res = $this->btcAPI->getOrder($value->tradid, $this->market);
                         $date = date("Y-m-d H:i:s" , $res->order->date);
