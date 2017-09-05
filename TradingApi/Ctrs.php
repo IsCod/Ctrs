@@ -179,10 +179,11 @@ class Ctrs{
 
             //创建订单
             try {
-                $orderId = $this->btcAPI->placeOrder($price->ask->price*0.01, $this->amount,  $this->market);
+                if ($price->ask->amount < $unit->amount) $unit->amount = $price->ask->amount;
+                $orderId = $this->btcAPI->placeOrder($price->ask->price*0.01, $unit->amount,  $this->market);
                 $unit->state = 2;
                 $unit->tradid = $orderId;
-                Log::write('unit-list', array('state' => 'open', 'orderId' => $orderId, 'type' => 'bid', 'price' => $price->bid->price*0.01, 'amount' => $this->amount));
+                Log::write('unit-list', array('state' => 'open', 'orderId' => $orderId, 'type' => 'bid', 'price' => $price->bid->price*0.01, 'amount' => $unit->amount));
             } catch (Exception $e) {
                 throw new Exception("Place Order error in manageUnit : " . $e->geMessage(), $e->getCode());
             }
@@ -192,10 +193,10 @@ class Ctrs{
         if ($unit->state === 1 && $unit->price * 1.008 < $price->bid->price)
         {
             try {
-                $orderId = $this->btcAPI->placeOrder($price->bid->price*0.01, -$this->amount, $this->market);
+                $orderId = $this->btcAPI->placeOrder($price->bid->price*0.01, -$unit->amount, $this->market);
                 $unit->state = 2;
                 $unit->tradid = $orderId;
-                Log::write('unit-list', array('state' => 'open', 'orderId' => $orderId, 'type' => 'ask', 'price' => $price->bid->price*0.01, 'amount' => $this->amount));
+                Log::write('unit-list', array('state' => 'open', 'orderId' => $orderId, 'type' => 'ask', 'price' => $price->bid->price*0.01, 'amount' => $unit->amount));
             } catch (Exception $e) {
                 throw new Exception("Place Order error in manageUnit : " . $e->geMessage(), $e->getCode());
             }
@@ -316,7 +317,7 @@ class Ctrs{
         foreach ($list as $key => $value) :
             $i++;
             if ($i < 3 || $i > ($count - 3)):
-                echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid . "\n";
+                echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid . "    amount: " . $value->amount . "\n";
             ;else :
                 $bid_diff = $price->{$this->market}->bid->price - $key - 200;
                 $ask_diff = $price->{$this->market}->ask->price - $key + 200;

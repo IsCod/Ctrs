@@ -32,7 +32,7 @@ class Unit{
     }
 
     public function getAmount($price){
-        $return = round(40/$price, 2);
+        $return = round(4000/$price, 2);
         return $return ? $return : 0.01;
     }
 }
