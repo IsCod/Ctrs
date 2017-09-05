@@ -16,6 +16,9 @@ class Unit{
             'price' => $price,
             'tradid' => 0
         );
+
+        $amount = $this->getAmount($price);
+        $this->data['amount'] = $this->getAmount($price);
     }
 
     public function __set($key, $value)
@@ -26,5 +29,10 @@ class Unit{
     public function __get($key)
     {
         return $this->data[$key];
+    }
+
+    public function getAmount($price){
+        $return = round(40/$price, 2);
+        return $return ? $return : 0.01;
     }
 }
