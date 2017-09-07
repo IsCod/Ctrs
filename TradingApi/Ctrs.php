@@ -321,6 +321,7 @@ class Ctrs{
             ;else :
                 $bid_diff = $price->{$this->market}->bid->price - $key - 200;
                 $ask_diff = $price->{$this->market}->ask->price - $key + 200;
+                $bid_diff += $value->state;
                 if ($bid_diff < 0 && $ask_diff > 0):
 
                     echo "  * key: ".$key . "   state: " . $value->state . "   price: " . $value->price . "   tradid: " . $value->tradid . "    unit-amount: " . $value->amount;
